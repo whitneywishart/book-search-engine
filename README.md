@@ -1,27 +1,22 @@
 # Book Search Engine
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+The Book Search Engine is an exercise to practice MERN technologies. It utilizes a GraphQL API (Google Books API) built with Apollo Server, React front-end, MongoDB database, Node.js/Express.js, and Apollo Server.
 <br><br>
 
-## Installation
+## Installation and usage
+To view the development, begin by installing the required packages:<br>
+`npm run install`
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+Then build a local development instance using:<br>
+`npm run develop`
 <br><br>
 
-## Usage
-Install packages:
+### Heroku deployment
+https://
 
-Run notes:
-<br><br>
+<br>
 
 ### Screenshot
-<img src="./assets/screenshot.png" width="800">
+<img src="./client/public/screenshot.png" width="800">
 
-### Links
-[I'm an inline-style link](https://www.google.com)
