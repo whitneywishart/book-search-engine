@@ -1,6 +1,5 @@
 # Book Search Engine
 ## Description
-
 The Book Search Engine is an exercise to practice MERN technologies. It utilizes a GraphQL API (Google Books API) built with Apollo Server, React front-end, MongoDB database, Node.js/Express.js, and Apollo Server.
 <br><br>
 
@@ -12,11 +11,10 @@ Then build a local development instance using:<br>
 `npm run develop`
 <br><br>
 
-### Heroku deployment
+## Heroku deployment
 https://
+<br><br>
 
-<br>
-
-### Screenshot
+## Screenshot
 <img src="./client/public/screenshot.png" width="800">
 
