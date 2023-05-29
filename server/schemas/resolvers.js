@@ -63,7 +63,7 @@ const resolvers = {
       throw new AuthenticationError('Please log in!');
     },
 
-    deleteBook: async (parent, { bookId }, context) => {
+    removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
         const user = await User.findOneAndUpdate(
           { _id: context.user._id },
