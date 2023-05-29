@@ -1,6 +1,6 @@
 # Book Search Engine
 ## Description
-The Book Search Engine is an exercise to practice MERN technologies. It utilizes a GraphQL API (Google Books API) built with Apollo Server, React front-end, MongoDB database, Node.js/Express.js, and Apollo Server.
+The Book Search Engine is an exercise to practice MERN technologies. It utilizes a GraphQL API (the Google Books API) built with a React front-end, MongoDB database, Node.js/Express.js, and Apollo Server.
 <br><br>
 
 ## Installation and usage
