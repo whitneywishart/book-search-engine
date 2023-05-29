@@ -17,4 +17,3 @@ https://
 
 ## Screenshot
 <img src="./client/public/screenshot.png" width="800">
-
