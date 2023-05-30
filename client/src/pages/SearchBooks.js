@@ -8,10 +8,10 @@ import {
   Row
 } from 'react-bootstrap';
 
-import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import Auth from '../utils/auth';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -21,12 +21,18 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  const [saveBook] = useMutation(SAVE_BOOK);
-
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+  const [saveBook] = useMutation(SAVE_BOOK, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${Auth.getToken()}`,
+      },
+    },
   });
+
+  // set up useEffect hook to save `savedBookIds` list to localStorage and update it when `savedBookIds` changes
+  useEffect(() => {
+    saveBookIds(savedBookIds);
+  }, [savedBookIds]);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -67,6 +73,9 @@ const SearchBooks = () => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    console.log('User logged in:', Auth.loggedIn());
+    console.log('Token:', token);
+
     if (!token) {
       return false;
     }
@@ -76,7 +85,6 @@ const SearchBooks = () => {
       });
 
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
-      console.log('setSavedBookIds', setSavedBookIds)
     } catch (err) {
       console.error(err);
     }
@@ -118,8 +126,8 @@ const SearchBooks = () => {
         <Row>
           {searchedBooks.map((book) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border='dark'>
+              <Col key={book.bookId} md="4">
+                <Card border='dark'>
                   {book.image ? (
                     <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
                   ) : null}

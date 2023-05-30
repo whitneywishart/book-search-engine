@@ -12,7 +12,12 @@ class AuthService {
   loggedIn() {
     // Checks if there is a saved token and it's still valid
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token); // handwaiving here
+    const isTokenExpired = this.isTokenExpired(token);
+
+    // console.log('Token:', token);
+    // console.log('Token expired:', isTokenExpired);
+
+    return !!token && !isTokenExpired;
   }
 
   // check if token is expired
@@ -45,5 +50,5 @@ class AuthService {
     window.location.assign('/');
   }
 }
-
+// eslint-disable-next-line
 export default new AuthService();
