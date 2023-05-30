@@ -10,14 +10,9 @@ class AuthService {
 
   // check if user's logged in
   loggedIn() {
-    // Checks if there is a saved token and it's still valid
+    // checks if there is a saved token and it's still valid
     const token = this.getToken();
-    const isTokenExpired = this.isTokenExpired(token);
-
-    // console.log('Token:', token);
-    // console.log('Token expired:', isTokenExpired);
-
-    return !!token && !isTokenExpired;
+    return !!token && !this.isTokenExpired(token); // handwaiving here
   }
 
   // check if token is expired
@@ -33,22 +28,22 @@ class AuthService {
   }
 
   getToken() {
-    // Retrieves the user token from localStorage
+    // retrieves the user token from localStorage
     return localStorage.getItem('id_token');
   }
 
   login(idToken) {
-    // Saves user token to localStorage
+    // saves user token to localStorage
     localStorage.setItem('id_token', idToken);
     window.location.assign('/');
   }
 
   logout() {
-    // Clear user token and profile data from localStorage
+    // clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
     // this will reload the page and reset the state of the application
     window.location.assign('/');
   }
 }
-// eslint-disable-next-line
+
 export default new AuthService();

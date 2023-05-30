@@ -11,6 +11,7 @@ import {
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+
 import Auth from '../utils/auth';
 
 const SearchBooks = () => {
@@ -18,21 +19,17 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
+
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  const [saveBook] = useMutation(SAVE_BOOK, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${Auth.getToken()}`,
-      },
-    },
-  });
+  const [saveBook] = useMutation(SAVE_BOOK);
 
-  // set up useEffect hook to save `savedBookIds` list to localStorage and update it when `savedBookIds` changes
+
+  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   useEffect(() => {
-    saveBookIds(savedBookIds);
-  }, [savedBookIds]);
+    return () => saveBookIds(savedBookIds);
+  });
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -70,11 +67,9 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-    console.log('User logged in:', Auth.loggedIn());
-    console.log('Token:', token);
 
     if (!token) {
       return false;
@@ -84,7 +79,9 @@ const SearchBooks = () => {
         variables: { bookData: bookToSave },
       });
 
+      // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      console.log('setSavedBookIds', setSavedBookIds)
     } catch (err) {
       console.error(err);
     }
@@ -126,8 +123,8 @@ const SearchBooks = () => {
         <Row>
           {searchedBooks.map((book) => {
             return (
-              <Col key={book.bookId} md="4">
-                <Card border='dark'>
+              <Col md="4">
+                <Card key={book.bookId} border='dark'>
                   {book.image ? (
                     <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
                   ) : null}
@@ -141,7 +138,7 @@ const SearchBooks = () => {
                         className='btn-block btn-info'
                         onClick={() => handleSaveBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                          ? 'This book has already been saved!'
+                          ? 'This book has been saved!'
                           : 'Save this Book!'}
                       </Button>
                     )}
